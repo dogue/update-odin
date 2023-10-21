@@ -1,0 +1,3 @@
+This is just a simple bash script to automate updating [Odin](https://github.com/odin-lang/Odin) and [the lsp](https://github.com/DanielGavin/ols)
+
+The script has a few variables at the top that need to be set appropriately to your liking. It redirects stdout and stderr to a logfile that gets overwritten on each run. I wanted to be able to debug if something goes wrong with an update, without the build steps spamming my terminal every time I run the script.
