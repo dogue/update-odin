@@ -8,6 +8,9 @@ LOG_PATH="PATH_TO_LOGFILE"
 # LLVM command, modify if necessary.
 LLVM_CMD="llvm-config-14"
 
+# Clear the log file by truncating it.
+> "$LOG_PATH"
+
 # Function to pull and build from a repository.
 pull_and_build() {
     local repo_path="$1"
