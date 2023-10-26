@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 
-ODIN_PATH="PATH TO WHERE YOU CLONED THE ODIN REPO"
-OLS_PATH="PATH TO WHERE YOU CLONED THE ODIN LSP REPO"
-LOG_PATH="PATH TO WHERE YOU WANT THE LOGFILE"
+# Define paths. Users should modify these before running the script.
+ODIN_PATH="PATH_TO_ODIN_REPO"
+OLS_PATH="PATH_TO_ODIN_LSP_REPO"
+LOG_PATH="PATH_TO_LOGFILE"
 
-# Change this to suit your system, if necessary
+# LLVM command, modify if necessary.
 LLVM_CMD="llvm-config-14"
 
-cd $ODIN_PATH
-echo "Pulling latest Odin..."
-git pull 1>$LOG_PATH 2>&1
-echo "Building Odin..."
-LLVM_CONFIG=$LLVM_CMD ./build_odin.sh 1>>$LOG_PATH 2>&1
+# Function to pull and build from a repository.
+pull_and_build() {
+    local repo_path="$1"
+    local build_cmd="$2"
+    
+    cd "$repo_path" || exit 1
+    echo "Pulling latest from $(basename "$repo_path")..."
+    git pull >>"$LOG_PATH" 2>&1
+    echo "Building $(basename "$repo_path")..."
+    $build_cmd >>"$LOG_PATH" 2>&1
+}
 
-cd $OLS_PATH
-echo "Pulling latest OLS..."
-git pull 1>>$LOG_PATH 2>&1
-echo "Building OLS..."
-./build.sh 1>>$LOG_PATH 2>&1
+pull_and_build "$ODIN_PATH" "LLVM_CONFIG=$LLVM_CMD ./build_odin.sh"
+pull_and_build "$OLS_PATH" "./build.sh"
